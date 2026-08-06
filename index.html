@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>McKay UK Adventure — September 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --mist:#ECEFEC;
+    --peat:#22302C;
+    --heather:#6F5590;
+    --loch:#33606B;
+    --gorse:#C9A227;
+    --card:#FFFFFF;
+    --line:#C6CFC9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+  body{
+    background:var(--mist);
+    color:var(--peat);
+    font-family:'Public Sans',system-ui,sans-serif;
+    font-size:16px;line-height:1.55;
+  }
+  a{color:var(--loch)}
+  /* ---------- Poster header ---------- */
+  header{
+    background:var(--peat);
+    color:var(--mist);
+    padding:56px 20px 48px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  header::after{ /* layered "highland ridge" horizon */
+    content:"";position:absolute;left:0;right:0;bottom:0;height:70px;
+    background:
+      linear-gradient(178deg, transparent 48%, rgba(111,85,144,.55) 48.5%) ,
+      linear-gradient(182deg, transparent 62%, rgba(51,96,107,.6) 62.5%),
+      linear-gradient(179deg, transparent 76%, var(--mist) 76.5%);
+    pointer-events:none;
+  }
+  .eyebrow{
+    font-family:'Jost',sans-serif;
+    text-transform:uppercase;letter-spacing:.32em;
+    font-size:.75rem;color:var(--gorse);font-weight:600;
+  }
+  h1{
+    font-family:'Jost',sans-serif;
+    font-weight:700;text-transform:uppercase;
+    letter-spacing:.06em;
+    font-size:clamp(2rem,7vw,3.4rem);
+    margin:.35em 0 .2em;
+  }
+  .dates{
+    font-family:'Jost',sans-serif;font-weight:500;
+    letter-spacing:.18em;text-transform:uppercase;font-size:.9rem;
+    color:#B8C4BE;
+  }
+  .status-banner{
+    max-width:680px;margin:26px auto 0;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.18);
+    border-radius:10px;padding:14px 18px;
+    font-size:.95rem;
+    position:relative;z-index:1;
+  }
+  .status-banner strong{color:var(--gorse)}
+  .tz-note{
+    font-size:.8rem;color:#9FAFA8;margin-top:8px;position:relative;z-index:1;
+  }
+  /* ---------- Route ---------- */
+  main{max-width:680px;margin:0 auto;padding:40px 20px 20px}
+  .route{position:relative;padding-left:44px}
+  .route::before{ /* the journey line */
+    content:"";position:absolute;left:15px;top:6px;bottom:6px;width:4px;
+    background:linear-gradient(180deg,var(--loch) 0%,var(--loch) 42%,var(--heather) 58%,var(--heather) 100%);
+    border-radius:2px;opacity:.45;
+  }
+  .stop{position:relative;margin-bottom:26px}
+  .stop::before{ /* station node */
+    content:"";position:absolute;left:-37px;top:20px;
+    width:16px;height:16px;border-radius:50%;
+    background:var(--mist);
+    border:4px solid var(--loch);
+  }
+  .stop.scot::before{border-color:var(--heather)}
+  .stop.done{opacity:.55}
+  .stop.done::before{background:var(--loch)}
+  .stop.done.scot::before{background:var(--heather)}
+  .stop.current::before{
+    background:var(--gorse);border-color:var(--peat);
+    box-shadow:0 0 0 6px rgba(201,162,39,.25);
+  }
+  .stop-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:18px 20px;
+  }
+  .stop.current .stop-card{
+    border:2px solid var(--gorse);
+    box-shadow:0 6px 18px rgba(34,48,44,.10);
+  }
+  .here-tag{
+    display:none;
+    font-family:'Jost',sans-serif;font-weight:600;text-transform:uppercase;
+    letter-spacing:.2em;font-size:.68rem;
+    background:var(--gorse);color:var(--peat);
+    padding:3px 10px;border-radius:20px;margin-bottom:8px;
+  }
+  .stop.current .here-tag{display:inline-block}
+  .stop-dates{
+    font-family:'Jost',sans-serif;font-weight:600;
+    text-transform:uppercase;letter-spacing:.14em;font-size:.75rem;
+    color:var(--loch);
+  }
+  .stop.scot .stop-dates{color:var(--heather)}
+  .stop h2{
+    font-family:'Jost',sans-serif;font-weight:600;
+    font-size:1.25rem;letter-spacing:.02em;margin:2px 0 6px;
+  }
+  .stop p{font-size:.95rem;margin-bottom:8px}
+  .stop p:last-child{margin-bottom:0}
+  .contact{
+    margin-top:10px;padding-top:10px;
+    border-top:1px dashed var(--line);
+    font-size:.9rem;
+  }
+  .contact .name{font-weight:600}
+  .contact a{white-space:nowrap}
+  .flight-row{
+    display:flex;gap:10px;align-items:baseline;
+    font-size:.92rem;padding:4px 0;
+  }
+  .flight-row .code{
+    font-family:'Jost',sans-serif;font-weight:600;letter-spacing:.06em;
+    min-width:98px;
+  }
+  /* ---------- Memory board ---------- */
+  .gallery{
+    display:flex;gap:10px;overflow-x:auto;
+    margin-top:12px;padding-bottom:4px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+  }
+  .gallery img{
+    height:150px;width:auto;max-width:240px;object-fit:cover;
+    border-radius:8px;flex:0 0 auto;
+    border:4px solid #fff;
+    box-shadow:0 3px 10px rgba(34,48,44,.18);
+    cursor:pointer;
+  }
+  .gallery figure{flex:0 0 auto;margin:0;text-align:center}
+  .gallery figcaption{
+    font-size:.72rem;color:#6B7A74;margin-top:4px;max-width:240px;
+  }
+  .postcard{
+    flex:0 0 auto;height:150px;width:220px;border-radius:8px;
+    border:4px solid #fff;
+    box-shadow:0 3px 10px rgba(34,48,44,.14);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:6px;color:#fff;text-align:center;padding:10px;
+    background:linear-gradient(150deg,var(--loch),#1E3A40);
+    position:relative;overflow:hidden;
+  }
+  .scot .postcard{background:linear-gradient(150deg,var(--heather),#3E2E55)}
+  .postcard::before{ /* stamp corner */
+    content:"✦";position:absolute;top:8px;right:10px;
+    font-size:.9rem;color:var(--gorse);
+    border:1px dashed rgba(255,255,255,.5);
+    padding:2px 7px;border-radius:3px;
+  }
+  .postcard .pc-place{
+    font-family:'Jost',sans-serif;font-weight:600;text-transform:uppercase;
+    letter-spacing:.14em;font-size:.85rem;line-height:1.3;
+  }
+  .postcard .pc-note{
+    font-size:.68rem;letter-spacing:.06em;color:rgba(255,255,255,.75);
+    text-transform:uppercase;
+  }
+  footer{
+    text-align:center;padding:28px 20px 44px;
+    font-size:.82rem;color:#6B7A74;
+  }
+  footer .paw{color:var(--heather)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Follow along with</div>
+  <h1>The McKay<br>UK Adventure</h1>
+  <div class="dates">September 2 – 21, 2026 &nbsp;•&nbsp; New York → London → At Sea → The Highlands</div>
+  <div class="status-banner" id="statusBanner">Loading trip status…</div>
+  <div class="tz-note">All dates &amp; times below are UK local time — 5 hours ahead of Eastern.</div>
+</header>
+
+<main>
+<div class="route" id="route">
+
+  <div class="stop" data-start="2026-09-02" data-end="2026-09-03">
+    <div class="stop-card">
+      <span class="here-tag">We are here</span>
+      <div class="stop-dates">Wed Sep 2 → Thu Sep 3</div>
+      <h2>Flying out ✈️</h2>
+      <div class="flight-row"><span class="code">BUF → JFK</span><span>Delta, departs 11:15am ET</span></div>
+      <div class="flight-row"><span class="code">JFK → LHR</span><span>Delta 1 overnight — lands London 8:50am Sep 3</span></div>
+      <p style="margin-top:8px">Best window to reach us: before noon Eastern on the 2nd. After that we're in the air!</p>
+    </div>
+  </div>
+
+  <div class="stop" data-start="2026-09-03" data-end="2026-09-06">
+    <div class="stop-card">
+      <span class="here-tag">We are here</span>
+      <div class="stop-dates">Thu Sep 3 → Sun Sep 6</div>
+      <h2>London</h2>
+      <p>Three nights in a central London apartment — museums, markets, and a proper Sunday roast.</p>
+      <div class="contact">
+        <span class="name">Central London apartment</span> · exact address shared with family by text · call or text us as usual — our phones work abroad</div>
+    </div>
+  </div>
+
+  <div class="stop" data-start="2026-09-06" data-end="2026-09-07">
+    <div class="stop-card">
+      <span class="here-tag">We are here</span>
+      <div class="stop-dates">Sun Sep 6 → Mon Sep 7</div>
+      <h2>Southampton</h2>
+      <p>Train down from Waterloo, one night by the docks before we board the ship.</p>
+      <div class="contact">
+        <span class="name">ibis Southampton Centre</span><br>
+        9 West Quay Rd, Southampton SO15 1RA<br>
+        <a href="tel:+442380634463">+44 23 8063 4463</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="stop" data-start="2026-09-07" data-end="2026-09-14">
+    <div class="stop-card">
+      <span class="here-tag">We are here</span>
+      <div class="stop-dates">Mon Sep 7 → Mon Sep 14</div>
+      <h2>Disney Cruise — At Sea 🚢</h2>
+      <p>A week sailing the British Isles out of Southampton — departing 3:45pm on the 7th.</p>
+      <div class="flight-row"><span class="code">Sep 9</span><span>Liverpool — walking in the steps of The Beatles</span></div>
+      <div class="flight-row"><span class="code">Sep 10</span><span>Greenock, Scotland — history, bagpipes &amp; tartan</span></div>
+      <div class="flight-row"><span class="code">Sep 12</span><span>Cobh (Cork), Ireland — Kinsale &amp; the countryside</span></div>
+      <div class="flight-row"><span class="code">Sep 13</span><span>Portland, England — Stonehenge!</span></div>
+      <p style="margin-top:8px">Sea days on the 8th and 11th. We'll be off the grid at sea and will check in from each port — no news is good news! 🌊</p>
+      <div class="contact">
+        <span class="name">In case of emergency</span><br>
+        Disney Cruise Line can relay a message to us on the ship:<br>
+        <a href="tel:+18009513532">1-800-951-3532</a> — say you need to reach guests aboard, sailing from Southampton Sep 7–14
+      </div>
+    </div>
+  </div>
+
+  <div class="stop scot" data-start="2026-09-14" data-end="2026-09-14">
+    <div class="stop-card">
+      <span class="here-tag">We are here</span>
+      <div class="stop-dates">Mon Sep 14</div>
+      <h2>The Long Rail North 🚆</h2>
+      <p>Off the ship at 8am and onto the rails: Southampton → London → Edinburgh Waverley, arriving late afternoon. A travel day — we'll surface once we're checked in.</p>
+    </div>
+  </div>
+
+  <div class="stop scot" data-start="2026-09-14" data-end="2026-09-16">
+    <div class="stop-card">
+      <span class="here-tag">We are here</span>
+      <div class="stop-dates">Mon Sep 14 → Wed Sep 16</div>
+      <h2>Edinburgh</h2>
+      <p>Two nights just off the Royal Mile — castle, closes, and cask ale.</p>
+      <div class="contact">
+        <span class="name">Fraser Suites Edinburgh</span><br>
+        12–26 St Giles' Street, Edinburgh EH1 1PT<br>
+        <a href="tel:+441312217200">+44 131 221 7200</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="stop scot" data-start="2026-09-16" data-end="2026-09-17">
+    <div class="stop-card">
+      <span class="here-tag">We are here</span>
+      <div class="stop-dates">Wed Sep 16 → Thu Sep 17</div>
+      <h2>Isle of Skye</h2>
+      <p>We pick up the car and head west into the mountains. One night at the foot of the Cuillin.</p>
+      <div class="contact">
+        <span class="name">Sligachan Hotel</span><br>
+        Sligachan, Isle of Skye IV47 8SW<br>
+        <a href="tel:+441478650204">+44 1478 650204</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="stop scot" data-start="2026-09-17" data-end="2026-09-18">
+    <div class="stop-card">
+      <span class="here-tag">We are here</span>
+      <div class="stop-dates">Thu Sep 17 → Fri Sep 18</div>
+      <h2>The North Coast</h2>
+      <p>Driving the far northern edge of Scotland — one of the most remote (and beautiful) stretches of the trip. Cell coverage up here is patchy; the hotel landline is the reliable option.</p>
+      <div class="contact">
+        <span class="name">Bettyhill Hotel</span><br>
+        Bettyhill, by Thurso KW14 7SP<br>
+        <a href="tel:+441641521202">+44 1641 521202</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="stop scot" data-start="2026-09-18" data-end="2026-09-21">
+    <div class="stop-card">
+      <span class="here-tag">We are here</span>
+      <div class="stop-dates">Fri Sep 18 → Mon Sep 21</div>
+      <h2>Inverness</h2>
+      <p>Three nights in the capital of the Highlands — Loch Ness, Culloden, and winding down before the flight home.</p>
+      <div class="contact">
+        <span class="name">Inverness City Suites</span><br>
+        2–7 High Street, Inverness IV1 1HY<br>
+        <a href="tel:+441463715218">+44 1463 715218</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="stop scot" data-start="2026-09-21" data-end="2026-09-22">
+    <div class="stop-card">
+      <span class="here-tag">We are here</span>
+      <div class="stop-dates">Mon Sep 21</div>
+      <h2>Homeward 🏠</h2>
+      <div class="flight-row"><span class="code">INV → EWR</span><span>Departs 11:10am UK, lands Newark 7:25pm ET</span></div>
+      <div class="flight-row"><span class="code">EWR → BUF</span><span>Matt — United, lands Buffalo 11:12pm</span></div>
+      <div class="flight-row"><span class="code">EWR → CHS</span><span>Ellen — lands Charleston 11:53pm</span></div>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  Made with love (and a very full itinerary). The dogs are holding down the fort. <span class="paw">🐾</span>
+</footer>
+
+<script>
+/* ================= MEMORY BOARD =================
+   To add trip photos: put image files in an /images
+   folder in this repo, then add lines to PHOTOS below.
+   key = which stop it appears under (in route order):
+   flyout, london, southampton, cruise, railday,
+   edinburgh, skye, northcoast, inverness, home
+   Example:
+   { key:'edinburgh', src:'images/castle.jpg', caption:'Edinburgh Castle at sunset' },
+================================================== */
+var PHOTOS = [
+  // { key:'london', src:'images/example.jpg', caption:'Example caption' },
+];
+
+var STOP_KEYS = ['flyout','london','southampton','cruise','railday',
+                 'edinburgh','skye','northcoast','inverness','home'];
+var STOP_PLACES = {
+  flyout:'Wheels Up', london:'London', southampton:'Southampton',
+  cruise:'At Sea', railday:'The Rails North', edinburgh:'Edinburgh',
+  skye:'Isle of Skye', northcoast:'The North Coast',
+  inverness:'Inverness', home:'Home Again'
+};
+
+(function(){
+  var stops = document.querySelectorAll('.stop');
+
+  // Build the memory board strips
+  stops.forEach(function(s, i){
+    var key = STOP_KEYS[i];
+    var pics = PHOTOS.filter(function(p){ return p.key === key; });
+    var strip = document.createElement('div');
+    strip.className = 'gallery';
+    if (pics.length) {
+      pics.forEach(function(p){
+        var fig = document.createElement('figure');
+        var img = document.createElement('img');
+        img.src = p.src;
+        img.alt = p.caption || STOP_PLACES[key];
+        img.loading = 'lazy';
+        img.onclick = function(){ window.open(p.src, '_blank'); };
+        fig.appendChild(img);
+        if (p.caption) {
+          var cap = document.createElement('figcaption');
+          cap.textContent = p.caption;
+          fig.appendChild(cap);
+        }
+        strip.appendChild(fig);
+      });
+    } else {
+      var pc = document.createElement('div');
+      pc.className = 'postcard';
+      pc.innerHTML = '<div class="pc-place">' + STOP_PLACES[key] + '</div>' +
+                     '<div class="pc-note">Postcard coming soon</div>';
+      strip.appendChild(pc);
+    }
+    s.querySelector('.stop-card').appendChild(strip);
+  });
+  var banner = document.getElementById('statusBanner');
+  var now = new Date();
+  var tripStart = new Date('2026-09-02T00:00:00');
+  var tripEnd = new Date('2026-09-22T00:00:00');
+  var current = null;
+
+  stops.forEach(function(s){
+    var start = new Date(s.dataset.start + 'T00:00:00');
+    var end = new Date(s.dataset.end + 'T23:59:59');
+    if (now > end) { s.classList.add('done'); }
+    else if (now >= start && now <= end) { s.classList.add('current'); current = s; }
+  });
+
+  if (now < tripStart) {
+    var days = Math.ceil((tripStart - now) / 86400000);
+    banner.innerHTML = '<strong>' + days + ' day' + (days===1?'':'s') + ' to go!</strong> The countdown is on — check back once we\u2019re underway to see where we are.';
+  } else if (now >= tripEnd) {
+    banner.innerHTML = '<strong>We\u2019re home!</strong> Thanks for following along — photos to come.';
+  } else if (current) {
+    var title = current.querySelector('h2').textContent;
+    banner.innerHTML = 'Right now: <strong>' + title + '</strong> — scroll to the gold marker for where to reach us.';
+    setTimeout(function(){ current.scrollIntoView({block:'center'}); }, 600);
+  } else {
+    banner.innerHTML = 'We\u2019re on the move between stops — check the route below.';
+  }
+})();
+</script>
+</body>
+</html>
