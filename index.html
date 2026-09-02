@@ -9,13 +9,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --mist:#ECEFEC;
-    --peat:#22302C;
-    --heather:#6F5590;
-    --loch:#33606B;
-    --gorse:#C9A227;
+    /* Clan Mackay tartan palette: blue, green, black */
+    --mist:#EAEEF0;
+    --peat:#16233A;      /* tartan navy-black ink */
+    --heather:#1F5C3D;   /* Mackay tartan green (Scotland legs) */
+    --loch:#2B4C7E;      /* Mackay tartan blue (England legs) */
+    --gorse:#C9A227;     /* crest gold — "we are here" */
     --card:#FFFFFF;
-    --line:#C6CFC9;
+    --line:#C4CCD4;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -31,6 +32,12 @@
   }
   a{color:var(--loch)}
   /* ---------- Poster header ---------- */
+  body::before{ /* Mackay tartan band */
+    content:"";display:block;height:8px;
+    background:repeating-linear-gradient(90deg,
+      #2B4C7E 0 26px, #10171F 26px 30px,
+      #1F5C3D 30px 52px, #10171F 52px 56px);
+  }
   header{
     background:var(--peat);
     color:var(--mist);
@@ -42,8 +49,8 @@
   header::after{ /* layered "highland ridge" horizon */
     content:"";position:absolute;left:0;right:0;bottom:0;height:70px;
     background:
-      linear-gradient(178deg, transparent 48%, rgba(111,85,144,.55) 48.5%) ,
-      linear-gradient(182deg, transparent 62%, rgba(51,96,107,.6) 62.5%),
+      linear-gradient(178deg, transparent 48%, rgba(31,92,61,.55) 48.5%) ,
+      linear-gradient(182deg, transparent 62%, rgba(43,76,126,.6) 62.5%),
       linear-gradient(179deg, transparent 76%, var(--mist) 76.5%);
     pointer-events:none;
   }
@@ -144,6 +151,15 @@
     font-family:'Jost',sans-serif;font-weight:600;letter-spacing:.06em;
     min-width:98px;
   }
+  .route-link{
+    display:inline-block;margin-top:10px;
+    font-family:'Jost',sans-serif;font-weight:600;font-size:.8rem;
+    text-transform:uppercase;letter-spacing:.12em;
+    color:var(--heather);text-decoration:none;
+    border:1.5px solid var(--heather);border-radius:20px;
+    padding:6px 14px;
+  }
+  .route-link:active{background:var(--heather);color:#fff}
   /* ---------- Memory board ---------- */
   .gallery{
     display:flex;gap:10px;overflow-x:auto;
@@ -168,10 +184,10 @@
     box-shadow:0 3px 10px rgba(34,48,44,.14);
     display:flex;flex-direction:column;align-items:center;justify-content:center;
     gap:6px;color:#fff;text-align:center;padding:10px;
-    background:linear-gradient(150deg,var(--loch),#1E3A40);
+    background:linear-gradient(150deg,var(--loch),#182C4A);
     position:relative;overflow:hidden;
   }
-  .scot .postcard{background:linear-gradient(150deg,var(--heather),#3E2E55)}
+  .scot .postcard{background:linear-gradient(150deg,var(--heather),#123524)}
   .postcard::before{ /* stamp corner */
     content:"✦";position:absolute;top:8px;right:10px;
     font-size:.9rem;color:var(--gorse);
@@ -223,7 +239,7 @@
       <div class="stop-dates">Thu Sep 3 → Sun Sep 6</div>
       <h2>London</h2>
       <p>Three nights in a central London apartment — museums, markets, and a proper Sunday roast.</p>
-      <div class="flight-row"><span class="code">Sep 3</span><span>Afternoon tea bus tour with prosecco, 2pm 🫖</span></div>
+      <div class="flight-row"><span class="code">Sep 3</span><span>Afternoon tea bus tour with prosecco, 4pm 🫖</span></div>
       <div class="flight-row"><span class="code">Sep 4</span><span>Full-day sightseeing — Changing of the Guard, Tower of London &amp; Harrods tea</span></div>
       <div class="flight-row"><span class="code">Sep 5</span><span>Warner Bros. Studio Tour — a full Harry Potter day ⚡</span></div>
       <div class="contact">
@@ -269,7 +285,7 @@
       <span class="here-tag">We are here</span>
       <div class="stop-dates">Mon Sep 14</div>
       <h2>The Long Rail North 🚆</h2>
-      <p>Off the ship at 8am and onto the rails: Southampton → London → Edinburgh Waverley, arriving late afternoon. A travel day — we'll surface once we're checked in.</p>
+      <p>Off the ship at 8am and onto the rails: the 11:00 from Southampton, across London, then the fast train north from King's Cross — into Edinburgh Waverley at 5:38pm. A travel day — we'll surface once we're checked in.</p>
     </div>
   </div>
 
@@ -279,6 +295,7 @@
       <div class="stop-dates">Mon Sep 14 → Wed Sep 16</div>
       <h2>Edinburgh</h2>
       <p>Two nights just off the Royal Mile — castle, closes, and cask ale.</p>
+      <div class="flight-row"><span class="code">Sep 15</span><span>Lunch at The Witchery by the Castle, noon — Secret Garden dining room 🕯️</span></div>
       <div class="flight-row"><span class="code">Sep 15</span><span>Harris Tweed satchel-making workshop, 2pm 🧵</span></div>
       <div class="flight-row"><span class="code">Sep 15</span><span>Scottish dinner &amp; folk music night, 6:45pm 🎻</span></div>
       <div class="contact">
@@ -294,7 +311,8 @@
       <span class="here-tag">We are here</span>
       <div class="stop-dates">Wed Sep 16 → Thu Sep 17</div>
       <h2>Isle of Skye</h2>
-      <p>We pick up the car and head west into the mountains. One night at the foot of the Cuillin.</p>
+      <p>We pick up the car and head west into the mountains — the giant Kelpies at Falkirk, Highland coos at Kilmahog, then over Rannoch Moor, down Glencoe, past Eilean Donan Castle, and over the Skye Bridge. One night at the foot of the Cuillin.</p>
+      <a class="route-link" href="https://www.google.com/maps/dir/Fraser+Suites+Edinburgh/The+Helix+Kelpies+Falkirk/Doune+Castle/Trossachs+Woollen+Mill+Kilmahog/Falls+of+Dochart+Killin/Green+Welly+Stop+Tyndrum/Three+Sisters+Viewpoint+Glencoe/Eilean+Donan+Castle/Sligachan+Hotel+Isle+of+Skye" target="_blank" rel="noopener">View the day's route ➤</a>
       <div class="contact">
         <span class="name">Sligachan Hotel</span><br>
         Sligachan, Isle of Skye IV47 8SW<br>
@@ -307,8 +325,10 @@
     <div class="stop-card">
       <span class="here-tag">We are here</span>
       <div class="stop-dates">Thu Sep 17 → Fri Sep 18</div>
-      <h2>The North Coast</h2>
-      <p>Driving the far northern edge of Scotland — one of the most remote (and beautiful) stretches of the trip. Cell coverage up here is patchy; the hotel landline is the reliable option.</p>
+      <h2>The North Coast — Mackay Country</h2>
+      <p>Driving the far northern edge of Scotland — and for us, this is the big one: the far northwest is <em>Dùthaich MhicAoidh</em>, "the Province of the Mackays," our clan's ancestral homeland. We'll visit Balnakeil Church (built by the Mackay chief in 1619), Castle Varrich (the ancient Mackay seat above the Kyle of Tongue), and the Clan Mackay Centre at Strathnaver — then drive down Strathnaver itself, the valley the family comes from. Bettyhill, where we're staying, was founded for Mackay families cleared from that same valley.</p>
+      <p>Cell coverage up here is patchy; the hotel landline is the reliable option.</p>
+      <a class="route-link" href="https://www.google.com/maps/dir/Sligachan+Hotel+Isle+of+Skye/Corrieshalloch+Gorge/Ullapool/Ardvreck+Castle/Kylesku+Bridge/Balnakeil+Church+Durness/Smoo+Cave+Durness/Castle+Varrich+Tongue/Bettyhill+Hotel" target="_blank" rel="noopener">View the day's route ➤</a>
       <div class="contact">
         <span class="name">Bettyhill Hotel</span><br>
         Bettyhill, by Thurso KW14 7SP<br>
@@ -322,7 +342,8 @@
       <span class="here-tag">We are here</span>
       <div class="stop-dates">Fri Sep 18 → Mon Sep 21</div>
       <h2>Inverness</h2>
-      <p>Three nights in the capital of the Highlands — winding down before the flight home.</p>
+      <p>Three nights in the capital of the Highlands — winding down before the flight home. We arrive by way of Strathnaver, the Clan Mackay valley, a salmon leap, and a fairy-tale castle.</p>
+      <a class="route-link" href="https://www.google.com/maps/dir/Bettyhill+Hotel/Strathnaver+Museum+Bettyhill/Rosal+Highland+Clearance+Village/The+Crask+Inn+Lairg/Falls+of+Shin/Dunrobin+Castle/Dornoch+Cathedral/Glenmorangie+Distillery+Tain/Inverness+City+Suites" target="_blank" rel="noopener">View the day's route ➤</a>
       <div class="flight-row"><span class="code">Sep 19</span><span>The complete Loch Ness experience — small-group day tour 🦕</span></div>
       <div class="flight-row"><span class="code">Sep 20</span><span>Glen Affric &amp; Culloden day tour</span></div>
       <div class="contact">
@@ -348,7 +369,9 @@
 </main>
 
 <footer>
-  Made with love (and a very full itinerary). The dogs are holding down the fort. <span class="paw">🐾</span>
+  <div style="font-family:'Jost',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.28em;font-size:.78rem;color:var(--heather);margin-bottom:6px">Manu Forti</div>
+  <div style="font-size:.75rem;margin-bottom:14px">"With a strong hand" — the motto of Clan Mackay</div>
+  Made with love (and a very full itinerary). The dogs are holding down the fort. <span class="paw" style="color:var(--loch)">🐾</span>
 </footer>
 
 <script>
@@ -370,7 +393,7 @@ var STOP_KEYS = ['flyout','london','southampton','cruise','railday',
 var STOP_PLACES = {
   flyout:'Wheels Up', london:'London', southampton:'Southampton',
   cruise:'At Sea', railday:'The Rails North', edinburgh:'Edinburgh',
-  skye:'Isle of Skye', northcoast:'The North Coast',
+  skye:'Isle of Skye', northcoast:'Mackay Country',
   inverness:'Inverness', home:'Home Again'
 };
 
