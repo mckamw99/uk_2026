@@ -176,8 +176,14 @@
   }
   .gallery figure{flex:0 0 auto;margin:0;text-align:center}
   .gallery figcaption{
-    font-size:.72rem;color:#6B7A74;margin-top:4px;max-width:240px;
+    font-size:.72rem;color:#6B7A74;margin-top:2px;max-width:240px;
   }
+  .gallery .photo-day{
+    font-family:'Jost',sans-serif;font-weight:600;
+    text-transform:uppercase;letter-spacing:.12em;font-size:.64rem;
+    color:var(--loch);margin-top:5px;
+  }
+  .stop.scot .gallery .photo-day{color:var(--heather)}
   .postcard{
     flex:0 0 auto;height:150px;width:220px;border-radius:8px;
     border:4px solid #fff;
@@ -381,16 +387,34 @@
    key = which stop it appears under (in route order):
    flyout, london, southampton, cruise, railday,
    edinburgh, skye, northcoast, inverness, home
+   day = optional ISO date (YYYY-MM-DD). It renders as a small
+   label above the caption, so a multi-day stop like London
+   reads Sep 3 -> Sep 4 -> Sep 5. Photos display in the order
+   they are listed below, so keep each stop in date order.
    Example:
-   { key:'edinburgh', src:'images/castle.jpg', caption:'Edinburgh Castle at sunset' },
+   { key:'edinburgh', src:'images/castle.jpg', day:'2026-09-15', caption:'Edinburgh Castle at sunset' },
 ================================================== */
 var PHOTOS = [
-  { key:'london', src:'images/london-afternoon-tea-bus.jpg', caption:'Afternoon tea bus tour \u2014 scones, sandwiches and prosecco rolling through London' },
-  { key:'london', src:'images/london-parliament-lambeth-bridge.jpg', caption:'Big Ben and the Houses of Parliament over Lambeth Bridge \u2014 framed by the tea bus roses' },
+  { key:'london', src:'images/london-afternoon-tea-bus.jpg', day:'2026-09-03', caption:'Afternoon tea bus tour \u2014 scones, sandwiches and prosecco rolling through London' },
+  { key:'london', src:'images/london-parliament-lambeth-bridge.jpg', day:'2026-09-03', caption:'Big Ben and the Houses of Parliament over Lambeth Bridge \u2014 framed by the tea bus roses' },
   { key:'london', src:'images/london-st-pauls.jpg', caption:"St Paul's Cathedral from the open top deck" },
   { key:'london', src:'images/london-tower-bridge-open.jpg', caption:'Tower Bridge lifting for a ship, with HMS Belfast moored alongside' },
   { key:'london', src:'images/london-embankment-dragon.jpg', caption:'A City of London dragon on the Embankment, guarding the old city boundary' },
+  { key:'london', src:'images/london-hp-greenhouse-mandrakes.jpg', day:'2026-09-05', caption:"Among the mandrakes in Professor Sprout's greenhouse" },
+  { key:'london', src:'images/london-hp-buckbeak.jpg', day:'2026-09-05', caption:'Buckbeak the hippogriff, waiting for a bow' },
+  { key:'london', src:'images/london-hp-hogwarts-express.jpg', day:'2026-09-05', caption:'Aboard the Hogwarts Express at Platform 9\u00BE' },
+  { key:'london', src:'images/london-hp-gringotts-vault.jpg', day:'2026-09-05', caption:'Deep in the Gringotts vault, buried in treasure' },
+  { key:'london', src:'images/london-hp-hogwarts-castle.jpg', day:'2026-09-05', caption:'The Hogwarts castle model \u2014 the finale of the studio tour' },
 ];
+
+var DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function fmtDay(iso){
+  var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+  if (!m) { return iso || ''; }
+  var d = new Date(+m[1], +m[2]-1, +m[3]);
+  return DOW[d.getDay()] + ' ' + MON[d.getMonth()] + ' ' + d.getDate();
+}
 
 var STOP_KEYS = ['flyout','london','southampton','cruise','railday',
                  'edinburgh','skye','northcoast','inverness','home'];
@@ -419,6 +443,12 @@ var STOP_PLACES = {
         img.loading = 'lazy';
         img.onclick = function(){ window.open(p.src, '_blank'); };
         fig.appendChild(img);
+        if (p.day) {
+          var day = document.createElement('div');
+          day.className = 'photo-day';
+          day.textContent = fmtDay(p.day);
+          fig.appendChild(day);
+        }
         if (p.caption) {
           var cap = document.createElement('figcaption');
           cap.textContent = p.caption;
